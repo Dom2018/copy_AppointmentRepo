@@ -1,27 +1,24 @@
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-import java.awt.Dialog.ModalExclusionType;
 
 public class Login extends JDialog {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -794190809093113074L;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private Boolean delete = false;
 	/**
 	 * Launch the application.
 	 
@@ -65,20 +62,19 @@ public class Login extends JDialog {
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			String s = new String(passwordField.getPassword());
-			cntlr.createUser(textField.getText(), s);
-			System.out.println(cntlr.getStatus());
-			if(cntlr.getStatus()){
-				dispose();
-			}
-			else 
-			{
-				System.out.println("Show error box");
-			}
-			
-			}
-			
-		});
+					String s = new String(passwordField.getPassword());
+					if(passwordField.getPassword().length > 0 && textField.getText().length() > 0) {
+						cntlr.createUser(textField.getText(), s);
+					}
+					
+					if(cntlr.getStatus()){
+						dispose();
+					} else {
+						LoginErrorDialogue d = new LoginErrorDialogue();
+						d.setVisible(true);
+					}
+				}
+			});
 		JButton btnNewButton_1 = new JButton("Close");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

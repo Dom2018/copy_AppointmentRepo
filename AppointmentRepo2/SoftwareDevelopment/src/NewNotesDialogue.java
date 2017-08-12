@@ -2,12 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 import java.util.Vector;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +16,10 @@ import javax.swing.border.EmptyBorder;
 
 public class NewNotesDialogue extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3343919942245449764L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField pNameBox;
 	private JTextField dateBox;
@@ -117,8 +118,9 @@ public class NewNotesDialogue extends JDialog {
 				JButton okButton = new JButton("Add");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						String newNotes = appt.get(3)+ "^" + aNotesBox.getText();
-						appt.set(3, newNotes);
+						String newNotes = "^" + aNotesBox.getText();
+						System.out.println(newNotes);
+						cntlr.updateNotes(newNotes, appt.get(0));
 						dispose();
 					}
 				});

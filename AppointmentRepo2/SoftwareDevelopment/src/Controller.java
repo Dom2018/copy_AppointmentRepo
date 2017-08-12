@@ -4,22 +4,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-import java.sql.*;
 
 
 	public class Controller {
-	private String uName; 
-	private String password;
  	private User u;
  	private Boolean userSet = false;
  	private	String dbUrl = "jdbc:mysql://localhost:3306/IT7320DB";
 	private	String user  = "root";   
-	private	String pass = "root"; // Dom's use of DB
-//  private String pass = ""; // for Charlie's use DB
+	//private	String pass = "root"; // Dom's use of DB
+    private String pass = ""; // for Charlie's use DB
 	private String Driver_Manager= "com.mysql.jdbc.Driver";
  	
 	
- private Vector<Vector<String>> testOnly = new Vector<Vector<String>>();
  private static Controller cntlr = null;
 	
  protected Controller() {}
@@ -47,12 +43,8 @@ import java.sql.*;
 			Connection myConnect = DriverManager.getConnection(dbUrl, user, pass);
 			Statement myStmt = myConnect.createStatement();
 			
-			// info for getting the username and password from the user table in DB
 			ResultSet myRs = myStmt.executeQuery("select * from user");
 			
-			
-			// will loop through while loop and find username and password and print a statement on concole to let user know they
-			// were able to get the right username and password and that it was successful. 
 			while(myRs.next()) {
 				if( myRs.getString("User_name").equals(uName) && myRs.getString("User_pass").equals(password)) {
 					String id = myRs.getString("User_ID");
@@ -63,14 +55,10 @@ import java.sql.*;
 					setStatus(true);
 				}	
 				
-//				String sql = "insert into user(User_name, User_pass) " + "values ('uName', 'password')";
-//				myStmt.executeUpdate(sql);
-				
 			}
 			ResultSet Rs = myStmt.executeQuery("select * from Appointment where User_ID =" + u.getID());
 			
 			while(Rs.next()) {
-				System.out.println(Rs.getString("App_ID"));
 				Vector<String> v = new Vector<String>();
 				v.add(Rs.getString("App_ID"));
 				v.add(Rs.getString("App_Date"));
@@ -98,18 +86,22 @@ import java.sql.*;
  }
  
  public void addNewAppointment(Vector<String> appt) {
-	 u.addAppointment(appt.get(0), appt.get(1), appt.get(2), appt.get(3));
+	
 	 //add appointment to db
-	 Connection myConnect;
+	Connection myConnect;
 	try {
+		String id = "0";
 		myConnect = DriverManager.getConnection(dbUrl, user, pass);
 		Statement myStmt = myConnect.createStatement();
 		
-		 String sql = "insert into Appointment(User_ID, App_Patient_Name, App_Date, App_Notes) " + "values ("+ u.getID() +", " +  "'" + appt.get(2) + "', " + "'"+ appt.get(1) +"', "+ "'" + appt.get(3)+"')";
-		 System.out.println(sql);
-		 myStmt.executeUpdate(sql);
+		 String sql = "insert into Appointment(User_ID, App_Patient_Name, App_Date, App_Notes) " + "values ("+ u.getID() +", " +  "'" + appt.get(1) + "', " + "'"+ appt.get(0) +"', "+ "'" + appt.get(2)+"')";
+		 myStmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+		 ResultSet r = myStmt.getGeneratedKeys();
+		 if(r.next()) {
+			id = String.valueOf(r.getInt(1));
+		 }
+		 u.addAppointment(id, appt.get(0), appt.get(1), appt.get(2));
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	
@@ -129,21 +121,38 @@ import java.sql.*;
  }
  
  public Vector<String> getAppointment(String id){
-	 for(Vector<String> v : testOnly) {
-		 if(v.firstElement().equals(id))
-			 //get from user
-			 return testOnly.get(testOnly.indexOf(v));
-	 }
-	return null;
+	 return u.getAppointment(id);
  }
  
  public void deleteAppointment(String id) {
-	 for(Vector<String> v : testOnly) {
-		 if(v.firstElement().equals(id))
-			 //Delete from db
-			 testOnly.remove(v);
-	 }
-	 //update user list
+	 Connection myConnect;
+	 try {
+		myConnect = DriverManager.getConnection(dbUrl, user, pass);
+		Statement myStmt = myConnect.createStatement();
+		
+		 String sql = "delete from Appointment WHERE Appt_ID = " + id;
+		 myStmt.executeUpdate(sql);
+		
+		 u.removeAppointment(id);
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+ 
+ public void updateNotes(String newNotes, String apptID) {
+	//add appointment to db
+	u.setNewNotes(newNotes, apptID);
+	Connection myConnect;
+	try {
+		myConnect = DriverManager.getConnection(dbUrl, user, pass);
+		Statement myStmt = myConnect.createStatement();
+			
+		String sql = "UPDATE appointment SET App_Notes = '" + newNotes + "' WHERE App_ID = " + apptID;
+		myStmt.executeUpdate(sql);			 
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
  }
  
 }

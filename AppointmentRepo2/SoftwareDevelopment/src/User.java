@@ -1,8 +1,3 @@
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Vector;
 
 public class User {
@@ -27,12 +22,34 @@ public class User {
 			appointments.add(ap);
 	}
 	
-	public Appointment getAppointment(String ID) {
+	public Vector<String> getAppointment(String ID) {
 		for(Appointment appt : appointments) {
-			if(appt.getID().equals(ID))
-				return appt;			
+			if(appt.getID().equals(ID)) {
+				Vector<String> vS = new Vector<String>();
+				vS.add(appt.getID());
+				vS.add(appt.getDate());
+				vS.add(appt.getPatName());
+				vS.add(appt.getNotes());
+				return vS;
+			}			
 		}
 		return null;
+	}
+	
+	public void setNewNotes(String newNotes, String ID) {
+		for(Appointment appt : appointments) {
+			if(appt.getID().equals(ID)) {
+				appt.addNotes(newNotes);
+			}
+		}
+	}
+	
+	public void removeAppointment(String ID) {
+		for(Appointment appt : appointments) {
+			if(appt.getID().equals(ID)) {
+				appointments.removeElement(appt);
+			}
+		}
 	}
 	
 	public Vector<Appointment> getAppointments() {

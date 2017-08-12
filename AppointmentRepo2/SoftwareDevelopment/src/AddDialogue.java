@@ -9,15 +9,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
@@ -25,6 +19,10 @@ import javax.swing.JLabel;
 
 public class AddDialogue extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6529370734135490951L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField pNameBox;
 
@@ -171,14 +169,12 @@ public class AddDialogue extends JDialog {
 						String year = (String) yearDrop.getSelectedItem();
 						
 						String date = day + " " + month + " " + year + " at " + time;
-						
-						
-						
+							
 						if(pName.length() > 0 && notes.length() > 0 && !time.equals("Time") && !day.equals("Dy") && !month.equals("Mon") && !year.equals("Year")) {
 							v.add(date);
 							v.add(pName);
 							v.add(notes);
-							cntlr.addAppointment(v);
+							cntlr.addNewAppointment(v);
 							
 							dispose();
 						}

@@ -1,14 +1,7 @@
-import java.awt.Dialog.ModalityType;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.GridBagLayout;
 import java.util.Vector;
-import java.awt.FlowLayout;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +10,6 @@ import java.awt.event.ActionEvent;
 
 public class ProfilePage {
 	
-	private Vector<String> mine;
 	private JFrame frame;
 	private JTable table;
 	private DefaultTableModel tM;
@@ -103,14 +95,18 @@ public class ProfilePage {
 		delButton = new JButton("Delete");
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConfirmDelete d = new ConfirmDelete();
-				d.setVisible(true);
-				if(d.getConfirm()) {
-					cntlr.deleteAppointment((String) tM.getValueAt(table.getSelectedRow(), 0));
-					tM.removeRow(table.getSelectedRow());
+				if(table.getSelectedRow() > -1) {
+					ConfirmDelete d = new ConfirmDelete();
+					d.setVisible(true);
+						if(d.getConfirm()) {
+							cntlr.deleteAppointment((String) tM.getValueAt(table.getSelectedRow(), 0));
+							tM.removeRow(table.getSelectedRow());
+						}
+					d.dispose();
+				}else {
+					SelectErrorDialogue d = new SelectErrorDialogue();
+					d.setVisible(true);
 				}
-					
-				d.dispose();
 			}
 		});
 		delButton.setBounds(696, 37, 89, 23);
@@ -119,8 +115,14 @@ public class ProfilePage {
 		addNotes = new JButton("Add Notes");
 		addNotes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewNotesDialogue d = new NewNotesDialogue((String) tM.getValueAt(table.getSelectedRow(), 0));
-				d.setVisible(true);
+				if(table.getSelectedRow() > -1) {
+					NewNotesDialogue d = new NewNotesDialogue((String) tM.getValueAt(table.getSelectedRow(), 0));
+					d.setVisible(true);
+				}else {
+					SelectErrorDialogue d = new SelectErrorDialogue();
+					d.setVisible(true);
+				}
+				
 			}
 		});
 		addNotes.setBounds(578, 37, 108, 23);
@@ -129,8 +131,13 @@ public class ProfilePage {
 		btnNewButton_2 = new JButton("Detailed View");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewAppointmentDetail d = new ViewAppointmentDetail((String) tM.getValueAt(table.getSelectedRow(), 0));
-				d.setVisible(true);
+				if(table.getSelectedRow() > -1) {
+					ViewAppointmentDetail d = new ViewAppointmentDetail((String) tM.getValueAt(table.getSelectedRow(), 0));
+					d.setVisible(true);
+				} else {
+					SelectErrorDialogue d = new SelectErrorDialogue();
+					d.setVisible(true);
+				}
 			}
 		});
 		btnNewButton_2.setBounds(340, 37, 129, 23);

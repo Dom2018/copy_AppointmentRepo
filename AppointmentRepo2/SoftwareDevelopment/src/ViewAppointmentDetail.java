@@ -3,9 +3,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -19,6 +16,10 @@ import javax.swing.border.EmptyBorder;
 
 public class ViewAppointmentDetail extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -464060765921107272L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField pNameBox;
 	private JTextField dateBox;
