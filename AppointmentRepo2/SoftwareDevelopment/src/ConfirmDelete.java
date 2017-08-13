@@ -1,18 +1,20 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ConfirmDelete extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3124497929981251045L;
 	private final JPanel contentPanel = new JPanel();
 	private Boolean delete = false;
 	
