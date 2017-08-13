@@ -1,3 +1,4 @@
+package sourceCode;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -14,12 +15,12 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-public class ViewAppointmentDetail extends JDialog {
+public class NewNotesDialogue extends JDialog {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -464060765921107272L;
+	private static final long serialVersionUID = -3343919942245449764L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField pNameBox;
 	private JTextField dateBox;
@@ -39,7 +40,7 @@ public class ViewAppointmentDetail extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ViewAppointmentDetail(String id) {
+	public NewNotesDialogue(String id) {
 		setTitle("Appointment System - Add Appointment");
 		setModal(true);
 		setAlwaysOnTop(true);
@@ -62,21 +63,13 @@ public class ViewAppointmentDetail extends JDialog {
 		dateBox.setText(appt.get(1));
 		
 		JTextArea aNotesBox = new JTextArea();
-		aNotesBox.setEditable(false);
 		
-		String notes = appt.get(3);
-		
-		for(String s : notes.split("\\^")) {
-			aNotesBox.append(s + "\n\n");
-		}
-		
-		
-		
+			
 		JLabel lblNewLabel = new JLabel("Patient Name:");
 		
 		JLabel lblNewLabel_1 = new JLabel("Time and Date:");
 		
-		JLabel lblNewLabel_2 = new JLabel("Notes");
+		JLabel lblNewLabel_2 = new JLabel("Supplementary Notes:");
 		
 		
 		
@@ -123,9 +116,12 @@ public class ViewAppointmentDetail extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Add");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						String newNotes = "^" + aNotesBox.getText();
+						System.out.println(newNotes);
+						cntlr.updateNotes(newNotes, appt.get(0));
 						dispose();
 					}
 				});
@@ -133,7 +129,16 @@ public class ViewAppointmentDetail extends JDialog {
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
 		}
 	}
-
 }
