@@ -32,7 +32,7 @@ public class TestAppointment {
 		
 		Appointment tester1 = new Appointment();
 		String id = tester1.getID();
-		assertEquals(id, "1" );
+		assertEquals(id, "2" );
 	}
 	
 	public void testPatName() {
