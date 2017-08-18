@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 // Here is the  code that is used for running the Database
+//This is from Eric
 
 	public class Controller {
  	private User u;
