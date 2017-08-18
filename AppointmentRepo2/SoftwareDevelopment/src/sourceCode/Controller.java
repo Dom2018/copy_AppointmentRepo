@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+// Here is the  code that is used for running the Database
 
 	public class Controller {
  	private User u;
